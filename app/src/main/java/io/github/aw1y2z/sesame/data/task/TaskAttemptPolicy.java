@@ -341,7 +341,7 @@ public class TaskAttemptPolicy {
         if (attempt == null) {
             return Outcome.SKIPPED;
         }
-    //    String flag = FLAG_PREFIX + sanitize(key);
+        String flag = FLAG_PREFIX + sanitize(key);
         // 交易/履约类（识别依据见 TaskAlternative 的关键词表）：**一律不发任何申报/伪造请求**
         // （伪申报会被服务端判风险操作、回 1009），并当场交自动黑名单停掉。
         // 不能指望下面"🧊兜底未生效"那条：跳过路径的 outcome 多为 UNABLE，永远不会 markTriggered，
