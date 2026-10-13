@@ -341,22 +341,22 @@ public class TaskAttemptPolicy {
         if (attempt == null) {
             return Outcome.SKIPPED;
         }
-        String flag = FLAG_PREFIX + sanitize(key);
+        //String flag = FLAG_PREFIX + sanitize(key);
         // 交易/履约类（识别依据见 TaskAlternative 的关键词表）：**一律不发任何申报/伪造请求**
         // （伪申报会被服务端判风险操作、回 1009），并当场交自动黑名单停掉。
         // 不能指望下面"🧊兜底未生效"那条：跳过路径的 outcome 多为 UNABLE，永远不会 markTriggered，
         // 于是任务只会在每轮被反复跳过、永远进不了黑名单（实测农场饲料任务即如此）。
-        /*if (site != null && site.bizKey != null && TaskAlternative.isTransactionTask(site.bizKey)) {
-            // 这类任务常驻列表、每轮都在，拉黑是**一次性**动作；已处理过就直接静默跳过，
-            // 否则每轮都重打一遍"永久拉黑"，日志被刷屏（且毫无新信息）。
-            if (Status.hasFlagToday(flag)) {
-                return Outcome.TRIED_TODAY;
-            }
-            // 底线：交易/支付类一次即**永久**拉黑（不进入"满 N 天解禁重试"的生命周期），绝不伪造
-            boolean blacklisted = autoBlackList(site, title, true);
-            Status.flagToday(flag);
-            log.accept("任务尝试⏭️交易/履约类[" + title + "]"
-                    + (blacklisted ? "#不申报，已永久拉黑" : "#不申报（自动黑名单列表未登记）"));
+         /**if (site != null && site.bizKey != null && TaskAlternative.isTransactionTask(site.bizKey)) {
+         *   // 这类任务常驻列表、每轮都在，拉黑是**一次性**动作；已处理过就直接静默跳过，
+         *   // 否则每轮都重打一遍"永久拉黑"，日志被刷屏（且毫无新信息）。
+         *   if (Status.hasFlagToday(flag)) {
+         *       return Outcome.TRIED_TODAY;
+         *   }
+         *   // 底线：交易/支付类一次即**永久**拉黑（不进入"满 N 天解禁重试"的生命周期），绝不伪造
+         *   boolean blacklisted = autoBlackList(site, title, true);
+         *   Status.flagToday(flag);
+         *   log.accept("任务尝试⏭️交易/履约类[" + title + "]"
+         *           + (blacklisted ? "#不申报，已永久拉黑" : "#不申报（自动黑名单列表未登记）"));
             return Outcome.UNABLE;
         }*/
         // **同一天内**又见到它（上次已伪申报、这轮仍在待办）⇒ 兜底没写成 ⇒ 按自动黑名单规则停掉。
@@ -461,21 +461,21 @@ public class TaskAttemptPolicy {
      * @param permanent true=交易/支付类：立即**永久**拉黑、永不自动解禁
      *                  （见 {@link MessageUtil#MarkTaskBlackListPermanent}）
      */
-    /*private static boolean autoBlackList(Site site, String title, boolean permanent) {
-        if (site == null || site.listField == null || site.listField.isEmpty()) {
-            return false;
-        }
-        String[] target = MessageUtil.autoBlackListTarget(site.listField);
-        if (target == null) {
-            Log.i(TAG, "自动拉黑列表未登记:" + site.listField);
-            return false;
-        }
-        if (permanent) {
-            MessageUtil.MarkTaskBlackListPermanent(target[0], site.listField, target[1], title);
-        } else {
-            MessageUtil.MarkTaskBlackList(target[0], site.listField, target[1], title);
-        }
-        return true;
+    /**private static boolean autoBlackList(Site site, String title, boolean permanent) {
+      *  if (site == null || site.listField == null || site.listField.isEmpty()) {
+      *      return false;
+      *  }
+      *  String[] target = MessageUtil.autoBlackListTarget(site.listField);
+      *  if (target == null) {
+      *      Log.i(TAG, "自动拉黑列表未登记:" + site.listField);
+      *      return false;
+      *  }
+      *  if (permanent) {
+      *      MessageUtil.MarkTaskBlackListPermanent(target[0], site.listField, target[1], title);
+      *  } else {
+      *      MessageUtil.MarkTaskBlackList(target[0], site.listField, target[1], title);
+      *  }
+      *  return true;
     }*/
 
     /**
