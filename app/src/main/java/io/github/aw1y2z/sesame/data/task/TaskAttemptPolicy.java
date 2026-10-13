@@ -462,21 +462,9 @@ public class TaskAttemptPolicy {
      *                  （见 {@link MessageUtil#MarkTaskBlackListPermanent}）
      */
     private static boolean autoBlackList(Site site, String title, boolean permanent) {
-        if (site == null || site.listField == null || site.listField.isEmpty()) {
             return false;
         }
-        String[] target = MessageUtil.autoBlackListTarget(site.listField);
-        if (target == null) {
-            Log.i(TAG, "自动拉黑列表未登记:" + site.listField);
-            return false;
-        }
-        if (permanent) {
-            MessageUtil.MarkTaskBlackListPermanent(target[0], site.listField, target[1], title);
-        } else {
-            MessageUtil.MarkTaskBlackList(target[0], site.listField, target[1], title);
-        }
-        return true;
-    }
+        
 
     /**
      * 上次伪申报是否发生在**同一天**；跨天则清掉记录并返回 false（日任务次日属新实例，不能据此判失败）。
