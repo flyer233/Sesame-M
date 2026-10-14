@@ -60,9 +60,9 @@ public class AntStall extends ModelTask {
         // 去点淘赚元宝提现
         taskTypeList.add("ANTSTALL_TASK_diantao202311");
         taskTypeList.add("ANTSTALL_TASK_nongchangleyuan");
+        taskTypeList.add("ANTSTALL_TASK_kuaishouhuanduan");
     }
-
-    
+ 
     @Override
     public String getName() {
         return "新村";
