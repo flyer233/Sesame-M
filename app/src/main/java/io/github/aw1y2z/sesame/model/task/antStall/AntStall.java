@@ -61,6 +61,7 @@ public class AntStall extends ModelTask {
         taskTypeList.add("ANTSTALL_TASK_diantao202311");
         taskTypeList.add("ANTSTALL_TASK_nongchangleyuan");
     }
+
     
     @Override
     public String getName() {
